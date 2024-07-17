@@ -1,20 +1,21 @@
-import { Badge, Bell, Home, LineChart, Menu, Package, Package2, ShoppingCart, Users } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Badge, Bell, CircleUser, Home, LineChart, Menu, Package, Package2, Search, ShoppingCart, Users } from "lucide-react";
+import { Link, Outlet } from "react-router-dom";
 import { Button } from "./ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { SheetContent, SheetTrigger, Sheet } from "./ui/sheet";
-
 import Logo from "./ui/Logo";
+import { Input } from "./ui/input";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 
 
 const Sidebar = () => {
     return (
-        <div className="grid min-h-screen md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+        <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
             <div className="hidden border-r bg-muted/40 md:block">
                 <div className="flex h-full max-h-screen flex-col gap-2">
                     <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-                        <Link href="/" className="flex items-center gap-2 font-semibold">
-                            <Logo />
+                        <Link to="/dash-board" className="">
+                            <Logo/>
                         </Link>
                         <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
                             <Bell className="h-4 w-4" />
@@ -24,42 +25,39 @@ const Sidebar = () => {
                     <div className="flex-1">
                         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
                             <Link
-                                to="/dash-board"
+                                href="#"
                                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                             >
                                 <Home className="h-4 w-4" />
-                                Dashboard 
+                                Dashboard
                             </Link>
                             <Link
-                               to="/balance"
+                                href="#"
                                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                             >
                                 <ShoppingCart className="h-4 w-4" />
-                               My Balance
-                                <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                                    6
-                                </Badge>
+                               Cash In
                             </Link>
                             <Link
                                 href="#"
                                 className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
                             >
                                 <Package className="h-4 w-4" />
-                                Send Money
+                                Cash Out
                             </Link>
                             <Link
                                 href="#"
                                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                             >
                                 <Users className="h-4 w-4" />
-                               Transactions History
+                                Send Money
                             </Link>
                             <Link
                                 href="#"
                                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                             >
                                 <LineChart className="h-4 w-4" />
-                                Analytics
+                                Transaction history
                             </Link>
                         </nav>
                     </div>
@@ -82,7 +80,7 @@ const Sidebar = () => {
                 </div>
             </div>
             <div className="flex flex-col">
-                <header className="flex h-14 items-center w-16 md:hidden gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+                <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
                     <Sheet>
                         <SheetTrigger asChild>
                             <Button
@@ -160,14 +158,41 @@ const Sidebar = () => {
                             </div>
                         </SheetContent>
                     </Sheet>
-
+                    <div className="w-full flex-1">
+                        <form>
+                            <div className="relative">
+                                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                                <Input
+                                    type="search"
+                                    placeholder="Search products..."
+                                    className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
+                                />
+                            </div>
+                        </form>
+                    </div>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="secondary" size="icon" className="rounded-full">
+                                <CircleUser className="h-5 w-5" />
+                                <span className="sr-only">Toggle user menu</span>
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>Settings</DropdownMenuItem>
+                            <DropdownMenuItem>Support</DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>Logout</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </header>
                 {/* <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
                     <div className="flex items-center">
                         <h1 className="text-lg font-semibold md:text-2xl">Inventory</h1>
                     </div>
                     <div
-                        className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
+                        className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm" 
                     >
                         <div className="flex flex-col items-center gap-1 text-center">
                             <h3 className="text-2xl font-bold tracking-tight">
@@ -180,8 +205,8 @@ const Sidebar = () => {
                         </div>
                     </div>
                 </main> */}
+                <Outlet/>
             </div>
-
         </div>
     );
 };

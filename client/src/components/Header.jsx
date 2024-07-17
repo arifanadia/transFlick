@@ -5,7 +5,7 @@ import { Input } from "./ui/input";
 const Header = () => {
     return (
   
-        <header className="flex h-14 items-center  border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+        <header className="flex h-14 items-center border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
             
             <div className="w-full flex-1">
             <form>

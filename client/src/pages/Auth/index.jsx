@@ -4,6 +4,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Background from "../../assets/login (2).png"
+import { apiClient } from "@/lib/api-client";
+import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
+import { toast } from "sonner";
 
 
 const Auth = () => {
@@ -13,12 +16,64 @@ const Auth = () => {
     const navigate = useNavigate();
 
 
-    const handleLogin = async () => {
-        navigate('/dash-board')
+     const validateSignup = () => {
+        if (!email.length) {
+            toast.error("Email is Required")
+            return false
+        }
+        if (!pin.length) {
+            toast.error("pin is Required")
+            return false
+        }
+        if (pin !== confirmPin) {
+            toast.error("pin and Confirm pin Should be same")
+            return false
+        }
+        return true
     }
+    const validateLogin = () => {
+        if (!email.length) {
+            toast.error("Email is Required")
+            return false
+        }
+        if (!pin.length) {
+            toast.error("pin is Required")
+            return false
+        }
+        return true
+    }
+    const handleLogin = async () => {
+        if (validateLogin()) {
+            const res = await apiClient.post(LOGIN_ROUTE,
+                { email, pin },
+                { withCredentials: true }
+            );
+            if (res.data.user.id) {
+                console.log(res.data.user);
+                
+                if (res.data.user) {
 
+                    navigate('/dash-board')
+                } else {
+                    navigate('/auth')
+                }
+            }
+        }
+
+    }
     const handleSignUp = async () => {
 
+
+        if (validateSignup()) {
+            const res = await apiClient.post(SIGNUP_ROUTE,
+                { email, pin },
+                { withCredentials: true }
+            );
+            if (res.status === 201) {
+               
+                navigate('/dash-board')
+            }
+        }
     }
 
 
@@ -29,7 +84,7 @@ const Auth = () => {
                 <div className="flex flex-col justify-center items-center gap-10">
                     <div className="flex justify-center items-center flex-col">
                         <div className="flex flex-col items-center justify-center">
-                            <h1 className="text-2sxl md:text-3xl font-bold">Welcome There! in<span className="text-[#C21E57]"> TransFlick</span></h1>
+                            <h1 className="text-2xl md:text-3xl font-bold">Welcome There! in<span className="text-[#C21E57]"> TransFlick</span></h1>
 
                         </div>
                         <p className="font-medium text-center mt-4">Fill in the details to get start with the best Money Transfer app </p>
